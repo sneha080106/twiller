@@ -58,14 +58,6 @@ frontend/
   src/lib/            axios instance (adds the auth token), notifications helper
 ```
 
-## Run it locally
-
-You need Node.js 18+, a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster (or a local MongoDB) and a free [Firebase](https://console.firebase.google.com) project with **Email/Password** and **Google** sign-in enabled.
-
-```bash
-git clone https://github.com/sneha080106/twiller.git
-cd twiller
-```
 
 **1. Backend**
 
@@ -85,26 +77,6 @@ npm install
 npm run dev                  # http://localhost:3000
 ```
 
-### Everything except the database is optional
-
-Each external service has a **dev-mode fallback**, so you can run and try the whole app with just MongoDB and Firebase web config:
-
-| If this is not set | What happens instead |
-| --- | --- |
-| `EMAIL_USER` / `EMAIL_PASS` | Emails are printed in the backend console and OTPs are returned to the UI as `devOtp` |
-| `STRIPE_SECRET_KEY` | Paid plans are applied immediately, without payment |
-| `FIREBASE_SERVICE_ACCOUNT` | API routes are not authenticated and password reset only logs what it would do |
-| `SMS_API_KEY` | Phone OTPs are logged and returned as `devOtp` |
-
-Set `DEMO_MODE=true` in `backend/.env` to switch off the time-of-day rules (audio tweets 2-7 PM IST, payments 10-11 AM IST, mobile login 10 AM-1 PM IST) so every feature can be tried at any hour.
-
-## Deploy
-
-1. **Database:** create a MongoDB Atlas cluster and copy the connection string.
-2. **Backend on Render:** new Web Service, root directory `backend`, build command `npm install`, start command `npm start`. Add the variables from `backend/.env.example`: `MONGODB_URL`, `CLIENT_URL` (your Vercel URL), `FIREBASE_SERVICE_ACCOUNT`, `DEMO_MODE=true`, plus email and Stripe keys if you want them real.
-3. **Frontend on Vercel:** import the repo, set the root directory to `frontend`, and add `BACKEND_URL` (your Render URL) and the six `NEXT_PUBLIC_FIREBASE_*` variables.
-4. **Firebase:** add your Vercel domain under Authentication -> Settings -> Authorized domains.
-5. **Stripe (optional):** use test mode and add a webhook to `https://<your-backend>/payment/webhook` for the `checkout.session.completed` event.
 
 ## API overview
 
